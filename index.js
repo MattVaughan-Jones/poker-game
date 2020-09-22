@@ -6,7 +6,9 @@ let deckCreator = require('./Deck.js');
 let deck = deckCreator();
 
 let playerManager = require('./player.js');
+playerManager.addPLayer();
 
+console.log(playerManager.players);
 
 let dealer = require('./dealer.js');
 let deal = dealer(deck, players);
@@ -16,10 +18,3 @@ let showdown = require('./show.js');
 let winner = showdown(deal.hands, deal.communityCards, players);
 
 console.log(winner);
-
-
-deck = [...cards]
-
-player = {
-  hand: []
-}
