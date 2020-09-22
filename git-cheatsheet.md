@@ -11,5 +11,10 @@ git clone github_url  # Clones project
 git init                    # Initializes git inside a project
 git add .                   # Adds all files to the thing??
 git commit -m "message"     # Creates a commit
-git remote add origin remote github_url
+git remote add origin github_url
 git push origin master
+
+// Committing changes
+git add .                   # Adds all files to the thing??
+git commit -m "message"     # Creates a commit
+git push origin master      # pushes to origin at master branch

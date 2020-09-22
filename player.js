@@ -2,14 +2,14 @@ var players = [];
 
 // Create Players
 module.exports = {
-  addPlayer,
+  createPlayer,
   players: players
 }
 
 
-function addPlayer() {
-  var player = {
-    hand: null
+function createPlayer() {
+  return {
+    hand: []
   };
 
   players.push(player);
