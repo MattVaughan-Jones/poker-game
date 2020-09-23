@@ -8,14 +8,23 @@ let newDeck = deckCreator(); //Adds newDeck to the global namespace
 
 game.addDeck(deckCreator()); //pushes newDeck to the game module
 
-game.addPlayer('me', 'none', 1);
-game.addPlayer('you', 'none', 0);
+for (i = 0 ; i < numberOfPlayers ; i++) {
+  game.addPlayer();
+}
 
-console.log(game.players);
+//Initialise a new hand by discarding each players cards
+game.newHand(numberOfPlayers);
+
+//Assign cards to each player
+for (whichPlayer = 0 ; whichPlayer < numberOfPlayers ; whichPlayer++){
+  for (j = 0 ; j < 2 ; j++){
+    let cardIndex = Math.floor(Math.random()*game.deck.length);
+    game.dealPlayerCards(whichPlayer, cardIndex);
+  }
+}
+
+
 /*
-game.addPlayer(playerCreator.createPlayer());
-game.addPlayer(playerCreator.createPlayer());
-
 game.dealPlayerCards();
 
 game.playRound();
