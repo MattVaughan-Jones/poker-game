@@ -1,19 +1,25 @@
+const numberOfPlayers = 3;
 
-
-var game = require('./game');
+let game = require('./game');
 let deckCreator = require('./deck.js');
 let playerCreator = require('./player.js');
 
-let deck = deckCreator();
+let newDeck = deckCreator(); //Adds newDeck to the global namespace
 
-game.addDeck(deck);
+game.addDeck(deckCreator()); //pushes newDeck to the game module
 
+game.addPlayer('me', 'none', 1);
+game.addPlayer('you', 'none', 0);
+
+console.log(game.players);
+/*
 game.addPlayer(playerCreator.createPlayer());
 game.addPlayer(playerCreator.createPlayer());
 
 game.dealPlayerCards();
 
 game.playRound();
+*/
 
 // //Define the number of players
 // const numberOfPlayers = 3;

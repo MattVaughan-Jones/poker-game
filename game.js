@@ -6,14 +6,21 @@ module.exports = {
   addPlayer
 };
 
-function addDeck(deck) {
-  this.deck = deck;
+function addDeck(newDeck) {
+  this.deck = newDeck;
 }
-
-function addPlayer(player) {
-  this.players.push(player);
+          //Function creates a Player in the players array
+class Player {
+  constructor(name, cards, chips){
+    this.name = name;
+    this.cards = cards;
+    this.chips = chips;
+  }
 }
-
+function addPlayer(name, cards, chips) {
+  this.players.push(new Player(name, cards, chips));
+}
+/*
 function dealPlayerCards() {
   // for each player
 
@@ -25,5 +32,4 @@ function dealPlayerCards() {
 function drawCommunityCard() {
 
 }
-
-function
+*/
