@@ -2,7 +2,7 @@ const numberOfPlayers = 3;
 
 let game = require('./game');
 let deckCreator = require('./deck.js');
-let playerCreator = require('./player.js');
+//let playerCreator = require('./player.js');
 
 let newDeck = deckCreator(); //Adds newDeck to the global namespace
 
@@ -18,9 +18,26 @@ game.newHand(numberOfPlayers);
 //Assign cards to each player
 for (whichPlayer = 0 ; whichPlayer < numberOfPlayers ; whichPlayer++){
   for (j = 0 ; j < 2 ; j++){
-    let cardIndex = Math.floor(Math.random()*game.deck.length);
-    game.dealPlayerCards(whichPlayer, cardIndex);
+    let deckIndex = Math.floor(Math.random()*game.deck.length);
+    game.dealPlayerCards(whichPlayer, deckIndex);
   }
+}
+
+//Assign cards to dealCommunityCards
+  //flop
+for (i = 0 ; i < 3 ; i++) {
+  let deckIndex = Math.floor(Math.random()*game.deck.length);
+  game.dealCommunityCards(deckIndex);
+}
+  //turn
+for (i = 0 ; i < 1 ; i++) {
+  let deckIndex = Math.floor(Math.random()*game.deck.length);
+  game.dealCommunityCards(deckIndex);
+}
+  //river
+for (i = 0 ; i < 1 ; i++) {
+  let deckIndex = Math.floor(Math.random()*game.deck.length);
+  game.dealCommunityCards(deckIndex);
 }
 
 

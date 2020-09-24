@@ -1,10 +1,12 @@
 module.exports = {
   deck: [],
   players: [],
+  communityCards: [],
   newHand,
   addDeck,
   addPlayer,
   dealPlayerCards,
+  dealCommunityCards
 };
 
 function addDeck(newDeck) {
@@ -25,7 +27,7 @@ function addPlayer(name, cards, chips) {
   this.players.push(new Player(name, cards, chips));
 }
 
-//discards each players cards
+//Initialises new hand: discards players cards,
 function newHand(numberOfPlayers){
   for (i = 0 ; i < numberOfPlayers ; i++) {
     this.players[i].playerCards = []
@@ -33,10 +35,14 @@ function newHand(numberOfPlayers){
 }
 
 //pushes the card selected in index to player.playerCards and removes it from deck.
-function dealPlayerCards(whichPlayer, cardIndex) {
-  this.players[whichPlayer].playerCards.push(this.deck[cardIndex]);
-  this.deck.splice(cardIndex, 1);   //delete card from deck
+function dealPlayerCards(whichPlayer, deckIndex) {
+  this.players[whichPlayer].playerCards.push(this.deck[deckIndex]);
+  this.deck.splice(deckIndex, 1);   //delete card from deck
+}
 
+function dealCommunityCards(deckIndex){
+  this.communityCards.push(this.deck[deckIndex]);
+  this.deck.splice(deckIndex, 1);   //delete card from deck
 }
 /*
 */
