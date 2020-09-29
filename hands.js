@@ -14,10 +14,23 @@ module.exports = {
   */
 }
 
-function highCard (players, communityCards, i){
+function highCard (players, communityCards, i) {
 
-  let returnHand = 1111;
-  return returnHand
+  let returnHand1 = players[i].playerCards.reduce(function (accumulator, current){
+    if (current.number > accumulator) {
+      accumulator = current.number
+    }
+    return accumulator
+  }, 0);
+
+  let returnHand2 = communityCards.reduce(function (accumulator, current){
+    if (current.number > accumulator) {
+      accumulator = current.number
+    }
+    return accumulator
+  }, returnHand1);
+
+  return 'high Card ' + returnHand2
 }
 
 /*

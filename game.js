@@ -63,49 +63,48 @@ function dealCommunityCards(quantity){
 
 
 //find hands
-function checkHands(numberOfPlayers, players) {
+function checkHands(numberOfPlayers) {
   for (i = 0 ; i < numberOfPlayers ; i++) {
 /*
-    if (hands.royalFlush(this.players[i].playerCards, this.communityCards)){
+    if (hands.royalFlush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
-    elseif (hands.straightFlush(this.players[i].playerCards, this.communityCards)){
-      return `high Card ${highCard}`
-    }
-
-    elseif (hands.fourOfAKind(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.straightFlush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 
-    elseif (hands.fullHouse(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.fourOfAKind(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 
-    elseif (hands.flush(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.fullHouse(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 
-    elseif (hands.straight(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.flush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 
-    elseif (hands.set(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.straight(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 
-    elseif (hands.twoPair(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.set(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 
-    elseif (hands.pair(this.players[i].playerCards, this.communityCards)){
+    elseif (hands.twoPair(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
 */
-
-    if (hands.highCard(this.players, this.communityCards, i)){
+    elseif (hands.pair(this.players, this.communityCards, i)) {
+      this.players[i].bestHand = hands.pair(this.players, this.communityCards, i);
+    }
+/*
+    if (hands.highCard(this.players, this.communityCards, i)) {
       this.players[i].bestHand = hands.highCard(this.players, this.communityCards, i);
     }
-
+*/
     else this.players[i].bestHand = "malfunction"
 
   }

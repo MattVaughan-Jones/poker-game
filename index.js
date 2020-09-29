@@ -23,8 +23,12 @@ game.dealCommunityCards(3); //flop
 game.dealCommunityCards(1); //turn
 game.dealCommunityCards(1); //river
 
-console.log(game.players);
-console.log(game.checkHands(numberOfPlayers));
+
+game.checkHands(numberOfPlayers);
+console.log(game.players[1].playerCards);
+console.log(game.communityCards);
+console.log(game.players[1].bestHand);
+console.log(game.players[1]);
 
 
 
