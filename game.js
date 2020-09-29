@@ -2,12 +2,15 @@ module.exports = {
   deck: [],
   players: [],
   communityCards: [],
-  newHand,
   addDeck,
   addPlayer,
+  newHand,
   dealPlayerCards,
-  dealCommunityCards
+  dealCommunityCards,
+  checkHands,
 };
+
+let hands = require('./hands.js');
 
 function addDeck(newDeck) {
   this.deck = newDeck;
@@ -16,33 +19,116 @@ function addDeck(newDeck) {
 //Create players
   //Defines Player class
 class Player {
-  constructor(name, playerCards, chips){
+  constructor(name, chips, playerCards, bestHand){
     this.name = name;
-    this.playerCards = playerCards;
     this.chips = chips;
+    this.playerCards = playerCards;
+    this.bestHand = bestHand
   }
 }
   //Pushes a Player to the players array. Can be called in index to create players.
-function addPlayer(name, cards, chips) {
-  this.players.push(new Player(name, cards, chips));
+function addPlayer(name, chips, playerCards, bestHand) {
+  this.players.push(new Player(name, chips, playerCards, bestHand));
 }
 
-//Initialises new hand: discards players cards,
+//Deal cards
+  //Initialises new hand: discards players cards,
 function newHand(numberOfPlayers){
   for (i = 0 ; i < numberOfPlayers ; i++) {
-    this.players[i].playerCards = []
+    this.players[i].playerCards = [];
+    this.players[i].bestHand = [];
+    this.communityCards = [];
   }
 }
 
-//pushes the card selected in index to player.playerCards and removes it from deck.
-function dealPlayerCards(whichPlayer, deckIndex) {
-  this.players[whichPlayer].playerCards.push(this.deck[deckIndex]);
-  this.deck.splice(deckIndex, 1);   //delete card from deck
+  //pushes the card selected in index to player.playerCards and removes it from deck.
+function dealPlayerCards(numberOfPlayers) {
+  for (i = 0 ; i < numberOfPlayers ; i++) {
+    for (j = 0 ; j < 2 ; j++){
+      let deckIndex = Math.floor(Math.random()*this.deck.length);
+      this.players[i].playerCards.push(this.deck[deckIndex]);
+      this.deck.splice(deckIndex, 1);   //delete card from deck
+    }
+  }
 }
 
-function dealCommunityCards(deckIndex){
-  this.communityCards.push(this.deck[deckIndex]);
-  this.deck.splice(deckIndex, 1);   //delete card from deck
+  //pushes card selected in index to communityCards
+function dealCommunityCards(quantity){
+  for (i = 0 ; i < quantity ; i++) {
+    let deckIndex = Math.floor(Math.random()*this.deck.length);
+    this.communityCards.push(this.deck[deckIndex]);
+    this.deck.splice(deckIndex, 1);   //delete card from deck
+  }
 }
+
+
+//find hands
+function checkHands(numberOfPlayers, players) {
+  for (i = 0 ; i < numberOfPlayers ; i++) {
+/*
+    if (hands.royalFlush(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+    elseif (hands.straightFlush(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.fourOfAKind(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.fullHouse(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.flush(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.straight(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.set(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.twoPair(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+
+    elseif (hands.pair(this.players[i].playerCards, this.communityCards)){
+      return `high Card ${highCard}`
+    }
+*/
+
+    if (hands.highCard(this.players, this.communityCards, i)){
+      this.players[i].bestHand = hands.highCard(this.players, this.communityCards, i);
+    }
+
+    else this.players[i].bestHand = "malfunction"
+
+  }
+}
+
+/*
+hands.highCard();
+console.log(hands.isHighCard);
+
+  //compare each players strongest hand
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 */
