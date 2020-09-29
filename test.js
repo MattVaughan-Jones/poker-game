@@ -1,32 +1,33 @@
 //test file
 
 
-let arr1 = [
-  { number: 11, suit: 'c' },
-  { number: 5, suit: 'd' },
-  { number: 10, suit: 'c' },
-  { number: 10, suit: 'h' },
-  { number: 5, suit: 's' } ];
-let arr2 = [20, 30, 1, 50];
-let suit1 = 's';
-let suit2 = 'd';
-let obj1 = {arr1, suit1};
-let obj2 = {arr2, suit2};
-const arrFromObj1 = [];
+let obj1 = [
+{number: 1, quantity: 1},
+{number: 2, quantity: 2},
+{number: 3, quantity: 1},
+{number: 4, quantity: 3},
+];
 
-//init value for 2nd reduce is output of the first
-let max1 = arr1.reduce(function (accumulator, current){
-  if (current.number > accumulator) {
-    accumulator = current.number
-  }
-  return accumulator
-}, 0);
-console.log('max1: ' + max1);
+/*
+2 ways to do this:
 
-let globalMax = arr2.reduce(function (accumulator, current){
-  if (current > accumulator) {
-    accumulator = current
+1 - identify first num, check if those below it are the same
+  - identify 2nd num, check if those below are the same. etc...
+    if yes, break, 1 pair. Would rely on being triggered by no higher hands (eg set)
+    wouldn't work for a Set
+
+2 - sort the hand into quantities of each number
+    identify quantity of 2
+    Could repurpose this code for 2pair, set, full, 4OAK
+*/
+
+let pairOf = obj1.map((element) => {
+  if (element.quantity = 2){
+    return element.number
   }
-  return accumulator
-}, max1);
-console.log('global max: ' + globalMax);
+  else {
+    return 'nothing'
+  }
+})
+
+console.log(pairOf);

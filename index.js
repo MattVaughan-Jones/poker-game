@@ -25,10 +25,10 @@ game.dealCommunityCards(1); //river
 
 
 game.checkHands(numberOfPlayers);
-console.log(game.players[1].playerCards);
+console.log(game.players[0].playerCards);
 console.log(game.communityCards);
-console.log(game.players[1].bestHand);
-console.log(game.players[1]);
+console.log(game.players[0].bestHand);
+
 
 
 

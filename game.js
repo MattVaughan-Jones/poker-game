@@ -65,6 +65,8 @@ function dealCommunityCards(quantity){
 //find hands
 function checkHands(numberOfPlayers) {
   for (i = 0 ; i < numberOfPlayers ; i++) {
+
+    hands.findDuplicates(this.communityCards, this.players);
 /*
     if (hands.royalFlush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
@@ -97,16 +99,16 @@ function checkHands(numberOfPlayers) {
       return `high Card ${highCard}`
     }
 */
-    elseif (hands.pair(this.players, this.communityCards, i)) {
+    if (hands.pair(this.players, this.communityCards, i)) {
       this.players[i].bestHand = hands.pair(this.players, this.communityCards, i);
     }
 /*
     if (hands.highCard(this.players, this.communityCards, i)) {
       this.players[i].bestHand = hands.highCard(this.players, this.communityCards, i);
     }
-*/
-    else this.players[i].bestHand = "malfunction"
 
+    else this.players[i].bestHand = "malfunction"
+*/
   }
 }
 
