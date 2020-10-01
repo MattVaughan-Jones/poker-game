@@ -72,19 +72,32 @@ function highCard (players, communityCards, i) {
 
 function pair (duplicateNum){
   let pair = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 2);
-  return pair
-}
-
-function twoPair (playerCards, communityCards, i){
-  let pairs = Object.keys(object).filter(key => object[key] === 2);
-  if (pairs.length === 1) {
-    pair = pairs[0]
+  if (pair.length === 1) {
     return pair
+  }
+  else {
+    return undefined
   }
 }
 
-function set (playerCards, communityCards, i){
+function twoPair (duplicateNum){
+  let pairs = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 2);
+  if (pairs.length === 2) {
+    return pairs
+  }
+  else {
+    return undefined
+  }
+}
 
+function set (duplicateNum){
+  let set = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 3);
+  if (set.length === 1) {
+    return set
+  }
+  else {
+    return undefined
+  }
 }
 
 function straight (playerCards, communityCards, i){
@@ -99,8 +112,14 @@ function fullHouse (playerCards, communityCards, i){
 
 }
 
-function fourOfAKind (playerCards, communityCards, i){
-
+function fourOfAKind (duplicateNum){
+  let fourOfAKind = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 4);
+  if (fourOfAKind.length === 1) {
+    return fourOfAKind
+  }
+  else {
+    return undefined
+  }
 }
 
 function straightFlush (playerCards, communityCards, i){

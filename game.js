@@ -9,7 +9,7 @@ module.exports = {
   dealCommunityCards,
   checkHands,
 };
-console
+
 let hands = require('./hands.js');
 
 function addDeck(newDeck) {
@@ -53,12 +53,21 @@ function dealPlayerCards(numberOfPlayers) {
 }
 
   //pushes card selected in index to communityCards
+
 function dealCommunityCards(quantity){
+  /*
   for (i = 0 ; i < quantity ; i++) {
     let deckIndex = Math.floor(Math.random()*this.deck.length);
     this.communityCards.push(this.deck[deckIndex]);
     this.deck.splice(deckIndex, 1);   //delete card from deck
   }
+  */
+  this.communityCards = [
+  { number: 10, suit: 'd' },
+  { number: 10, suit: 'c' },
+  { number: 10, suit: 'h' },
+  { number: 10, suit: 'd' },
+  { number: 6, suit: 'h' } ]
 }
 
 
@@ -74,11 +83,11 @@ function checkHands(numberOfPlayers) {
     elseif (hands.straightFlush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
-
-    elseif (hands.fourOfAKind(this.players, this.communityCards, i)) {
-      return `high Card ${highCard}`
+*/
+    if (hands.fourOfAKind(duplicateNum)) {
+      this.players[i].bestHand = '4 of a kind: ' + hands.fourOfAKind(duplicateNum);
     }
-
+/*
     elseif (hands.fullHouse(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
@@ -90,27 +99,25 @@ function checkHands(numberOfPlayers) {
     elseif (hands.straight(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
-
-    elseif (hands.set(this.players, this.communityCards, i)) {
-      return `high Card ${highCard}`
-    }
-
-    elseif (hands.twoPair(this.players, this.communityCards, i)) {
-      return `high Card ${highCard}`
-    }
 */
+    else if (hands.set(duplicateNum)) {
+      this.players[i].bestHand = 'Set of ' + hands.set(duplicateNum);
+    }
 
+    else if (hands.twoPair(duplicateNum)) {
+      this.players[i].bestHand = '2 Pairs of ' + hands.twoPair(duplicateNum);
+    }
 
-    if (hands.pair(duplicateNum)) {
+    else if (hands.pair(duplicateNum)) {
       this.players[i].bestHand = 'Pair of ' + hands.pair(duplicateNum);
     }
-/*
-    if (hands.highCard(this.players, this.communityCards, i)) {
+
+    else if (hands.highCard(this.players, this.communityCards, i)) {
       this.players[i].bestHand = hands.highCard(this.players, this.communityCards, i);
     }
 
     else this.players[i].bestHand = "malfunction"
-*/
+
   }
 }
 
