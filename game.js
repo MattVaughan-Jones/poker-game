@@ -9,7 +9,7 @@ module.exports = {
   dealCommunityCards,
   checkHands,
 };
-
+console
 let hands = require('./hands.js');
 
 function addDeck(newDeck) {
@@ -66,7 +66,7 @@ function dealCommunityCards(quantity){
 function checkHands(numberOfPlayers) {
   for (i = 0 ; i < numberOfPlayers ; i++) {
 
-    hands.findDuplicates(this.communityCards, this.players);
+    let duplicateNum = hands.findDuplicates(this.communityCards, this.players);
 /*
     if (hands.royalFlush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
@@ -99,8 +99,10 @@ function checkHands(numberOfPlayers) {
       return `high Card ${highCard}`
     }
 */
-    if (hands.pair(this.players, this.communityCards, i)) {
-      this.players[i].bestHand = hands.pair(this.players, this.communityCards, i);
+
+
+    if (hands.pair(duplicateNum)) {
+      this.players[i].bestHand = 'Pair of ' + hands.pair(duplicateNum);
     }
 /*
     if (hands.highCard(this.players, this.communityCards, i)) {

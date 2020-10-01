@@ -70,12 +70,17 @@ function highCard (players, communityCards, i) {
   return 'high Card ' + returnHand2
 }
 
-function pair (playerCards, communityCards, i){
-  
+function pair (duplicateNum){
+  let pair = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 2);
+  return pair
 }
 
 function twoPair (playerCards, communityCards, i){
-
+  let pairs = Object.keys(object).filter(key => object[key] === 2);
+  if (pairs.length === 1) {
+    pair = pairs[0]
+    return pair
+  }
 }
 
 function set (playerCards, communityCards, i){

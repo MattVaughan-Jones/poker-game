@@ -23,12 +23,12 @@ game.dealCommunityCards(3); //flop
 game.dealCommunityCards(1); //turn
 game.dealCommunityCards(1); //river
 
-
+//search for each player's best hand
 game.checkHands(numberOfPlayers);
-console.log(game.players[0].playerCards);
-console.log(game.communityCards);
-console.log(game.players[0].bestHand);
 
+console.log(game.communityCards);
+console.log(game.players[0].playerCards);
+console.log(game.players[0].bestHand);
 
 
 
