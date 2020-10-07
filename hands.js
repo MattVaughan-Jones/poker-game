@@ -1,7 +1,7 @@
 // Finds hands in each player
 module.exports = {
-  findDuplicates,
-  allDuplicates: null,
+  countedNumbers: null,
+  findDuplicateNum,
   highCard,
   pair,
   twoPair,
@@ -15,44 +15,44 @@ module.exports = {
 }
 
 //creates an object which counts occurences of each number
-function findDuplicates(communityCards, players){
-  let communityDuplicates = communityCards.map((card) => {
-    return {
-      num: card.number,
-      count: 1
-    }
-  })
-  .reduce((accum , current) => {
-    if (accum[current.num]){
-      accum[current.num]+= 1
-    }
-    else {
-      accum[current.num]= 1
-    }
-    return accum
-  }, {})
 
-  this.allDuplicates = players[i].playerCards.map((card) => {
-    return {
-      num: card.number,
-      count: 1
-    }
+function findDuplicateNum(communityCards, players){
+  let numberSummary = communityCards.map((element) => {
+    return Object.assign({}, element)
   })
-  .reduce((accum , current) => {
-    if (accum[current.num]){
-      accum[current.num]+= 1
+
+  let countedNumbers = [];
+
+  numberSummary.push(...players[i].playerCards.map((element) => {
+    return Object.assign({}, element)
+  }));
+
+  numberSummary.map((element) => {
+    element.count = 1;
+    delete element.suit;
+  })
+
+  numberSummary.reduce((accum, curr) => {
+    countedNumbers = [];
+    countedNumbers = countedNumbers.concat(accum);
+    if (countedNumbers.find((x) => x.number === curr.number) === undefined) {
+      countedNumbers.push(curr);
     }
     else {
-      accum[current.num]= 1
+      //find index in countedNumbers where curr.number = countedNumbers[i].number, increment count
+      for (i1 = 0 ; i1 < countedNumbers.length ; i1++) {
+        if (countedNumbers[i1].number === curr.number) {
+          countedNumbers[i1].count += 1;
+        }
+      }
     }
-  return accum
-  }, communityDuplicates)
-  return this.allDuplicates
+    return countedNumbers;
+  })
+  return countedNumbers;
 }
 
 //determine the high card
 function highCard (players, communityCards, i) {
-
   let returnHand1 = players[i].playerCards.reduce(function (accumulator, current){
     if (current.number > accumulator) {
       accumulator = current.number
@@ -71,7 +71,12 @@ function highCard (players, communityCards, i) {
 }
 
 function pair (duplicateNum){
-  let pair = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 2);
+  let pair = [];
+  duplicateNum.map((element) => {
+    if (element.count === 2) {
+      pair.push(element.number);
+    }
+  })
   if (pair.length === 1) {
     return pair
   }
@@ -80,8 +85,18 @@ function pair (duplicateNum){
   }
 }
 
+
+//what to do if 3 pairs
 function twoPair (duplicateNum){
-  let pairs = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 2);
+  let pairs = [];
+  duplicateNum.map((element) => {
+    if (element.count === 2) {
+      pairs.push(element.number);
+    }
+  })
+  if (pairs.length === 3) {
+    pairs.splice(pairs.findIndex(number => number === Math.min(...pairs)), 1);
+  }
   if (pairs.length === 2) {
     return pairs
   }
@@ -91,7 +106,15 @@ function twoPair (duplicateNum){
 }
 
 function set (duplicateNum){
-  let set = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 3);
+  let set = [];
+  duplicateNum.map((element) => {
+    if (element.count === 3) {
+      set.push(element.number);
+    }
+  })
+  if (set.length === 2) {
+    set.splice(set.findIndex(number => number === Math.min(...set)), 1);
+  }
   if (set.length === 1) {
     return set
   }
@@ -108,12 +131,53 @@ function flush (playerCards, communityCards, i){
 
 }
 
-function fullHouse (playerCards, communityCards, i){
+/*
+Could do this 2 ways:
+- analyse each way to get a full (normal, from 2 sets, from set + to pairs)
+- find highest set and highest pair available
+  might be hard to find the pair in 2 sets
+*/
+function fullHouse (duplicateNum) {
+  //find set
+  let fullHouse = [];
+  let set = [];
+  duplicateNum.map((elementSet) => {
+    if (elementSet.count === 3) {
+      set.push(elementSet.number);
+    }
+  })
+  //find pair
+  let pair = []
+  duplicateNum.map((elementPair) => {
+    if (elementPair.count === 2) {
+      pair.push(elementPair.number);
+    }
+  })
 
+  if (set.length === 1 && pair.length === 1) {
+    console.log('regular full house');
+  }
+
+  else if (set.length === 2) {
+    console.log('full house from 2 sets');
+  }
+
+  else if (set.length === 1 && pair.length === 2) {
+    console.log('full house from set and 2 pairs');
+  }
+
+  else {
+    return undefined
+  }
 }
 
 function fourOfAKind (duplicateNum){
-  let fourOfAKind = Object.keys(duplicateNum).filter(key => duplicateNum[key] === 4);
+  let fourOfAKind = []
+  duplicateNum.map((element) => {
+    if (element.count === 4) {
+      fourOfAKind.push(element.number);
+    }
+  })
   if (fourOfAKind.length === 1) {
     return fourOfAKind
   }
