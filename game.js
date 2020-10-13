@@ -30,11 +30,11 @@ function addDeck(newDeck) {
 //Create players
   //Defines Player class
 class Player {
-  constructor(name, chips, playerCards, bestHand){
+  constructor(name, chips, playerCards, bestHand, allCards){
     this.name = name;
     this.chips = chips;
     this.playerCards = playerCards;
-    this.bestHand = bestHand
+    this.bestHand = bestHand;
   }
 }
   //Pushes a Player to the players array. Can be called in index to create players.
@@ -61,14 +61,14 @@ function dealPlayerCards(numberOfPlayers) {
       this.deck.splice(deckIndex, 1);   //delete card from deck
     }
   }
-  this.players[0].playerCards[0] = {number: 10, suit: 'fake'};
-  this.players[0].playerCards[1] = {number: 3, suit: 'fake'};
+  this.players[0].playerCards[0] = {number: 10, suit: 's'};
+  this.players[0].playerCards[1] = {number: 3, suit: 'h'};
 
-  this.players[1].playerCards[0] = {number: 2, suit: 'fake'};
-  this.players[1].playerCards[1] = {number: 10, suit: 'fake'};
+  this.players[1].playerCards[0] = {number: 2, suit: 'h'};
+  this.players[1].playerCards[1] = {number: 10, suit: 'h'};
 
-  this.players[2].playerCards[0] = {number: 1, suit: 'fake'};
-  this.players[2].playerCards[1] = {number: 1, suit: 'fake'};
+  this.players[2].playerCards[0] = {number: 1, suit: 'h'};
+  this.players[2].playerCards[1] = {number: 1, suit: 'h'};
 }
 
   //pushes card selected in index to communityCards
@@ -82,7 +82,7 @@ function dealCommunityCards(quantity){
   }
   */
   this.communityCards = [
-  { number: 10, suit: 'd' },
+  { number: 10, suit: 'h' },
   { number: 10, suit: 'c' },
   { number: 1, suit: 'h' },
   { number: 2, suit: 'd' },
@@ -94,7 +94,12 @@ function dealCommunityCards(quantity){
 function checkHands(numberOfPlayers) {
   for (i = 0 ; i < numberOfPlayers ; i++) {
 
-    let duplicateNum = hands.findDuplicateNum(this.communityCards, this.players, i);
+    let allCards = hands.allCards(this.communityCards, this.players, i);
+    
+    let duplicateNum = hands.findDuplicateNum(allCards, this.communityCards, this.players, i);
+
+    let duplicateSuit = hands.findDuplicateSuit(allCards, this.communityCards, this.players, i);
+
 /*
     if (hands.royalFlush(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
@@ -106,19 +111,19 @@ function checkHands(numberOfPlayers) {
     if (hands.fourOfAKind(duplicateNum)) {
       this.players[i].bestHand = '4 of a kind: ' + hands.fourOfAKind(duplicateNum);
     }
-*/
+
     if (hands.fullHouse(duplicateNum)) {
-      this.players[i].bestHand = 'Full house: ' + hands.fullHouse(duplicateNum);
+      this.players[i].bestHand = hands.fullHouse(duplicateNum);
+    }
+*/
+    if (hands.flush(duplicateSuit, allCards, i)) {
+      this.players[i].bestHand = hands.flush(duplicateSuit, allCards, i);
     }
 /*
-    elseif (hands.flush(this.players, this.communityCards, i)) {
-      return `high Card ${highCard}`
-    }
-
     elseif (hands.straight(this.players, this.communityCards, i)) {
       return `high Card ${highCard}`
     }
-
+*/
     else if (hands.set(duplicateNum)) {
       this.players[i].bestHand = 'Set of ' + hands.set(duplicateNum);
     }
@@ -136,15 +141,13 @@ function checkHands(numberOfPlayers) {
     }
 
     else this.players[i].bestHand = "malfunction"
-*/
-  console.log('player ' + i + ': ' + this.players[i].bestHand);
-  console.log(duplicateNum);
+
+  console.log(this.players[i].bestHand);
   }
 }
 /*
 
-hands.highCard();
-console.log(hands.isHighCard);
+
 
   //compare each players strongest hand
 

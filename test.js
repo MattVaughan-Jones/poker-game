@@ -1,22 +1,38 @@
 //test file
 
 let communityCards = [
-  { number: 10, suit: 'd' },
-  { number: 10, suit: 'c' },
-  { number: 2, suit: 'h' },
-  { number: 1, suit: 'd' },
-  { number: 2, suit: 'h' }
+  { number: 4, suit: 'd' },
+  { number: 0, suit: 'c' },
+  { number: 5, suit: 'h' },
+  { number: 6, suit: 'd' },
+  { number: 7, suit: 'h' },
+  { number: 3, suit: 'd' },
+  { number: 5, suit: 'h' }
 ]
 
+let arr = [1, 4, 2, 6, 8, 5, 3, 2];
 
-let arr1 = [1, 2, 3];
-let arr2 = [1];
-if (arr1.length > 2 && arr2.length > 2 || arr1.length === 1 && arr2.length === 1) {
-  console.log('yes');
+communityCards.sort((a, b) => {
+  return a.number - b.number;
+})
+
+console.log(communityCards);
+
+for (index = 0 ; index < 3 ; index ++) {
+  if (communityCards[index].number + 1 === communityCards[index+1].number
+  && communityCards[index].number + 2 === communityCards[index+2].number
+  && communityCards[index].number + 3 === communityCards[index+3].number
+  && communityCards[index].number + 4 === communityCards[index+4].number) {
+    console.log('yes');
+  }
+  console.log(index);
 }
-else {
-  console.log('no');
-}
+
+//need to figure out what to do if there are duplicates in the middle
+
+
+
+
 
 
 

@@ -26,10 +26,6 @@ game.dealCommunityCards(1); //river
 //search for each player's best hand
 game.checkHands(numberOfPlayers);
 
-console.log(game.communityCards);
-console.log(game.players[0].playerCards);
-console.log(game.players[1].playerCards);
-console.log(game.players[2].playerCards);
 
 
 

@@ -1,7 +1,8 @@
 // Finds hands in each player
 module.exports = {
-  countedNumbers: null,
   findDuplicateNum,
+  findDuplicateSuit,
+  allCards,
   highCard,
   pair,
   twoPair,
@@ -14,18 +15,31 @@ module.exports = {
   royalFlush
 }
 
-//creates an object which counts occurences of each number
-
-function findDuplicateNum(communityCards, players){
-  let numberSummary = communityCards.map((element) => {
+//creates a CLONE object which lists all playerCards + communityCards
+function allCards(communityCards, players, i) {
+  let allCards = communityCards.map((element) => {
     return Object.assign({}, element)
   })
 
-  let countedNumbers = [];
-
-  numberSummary.push(...players[i].playerCards.map((element) => {
+  allCards.push(...players[i].playerCards.map((element) => {
     return Object.assign({}, element)
   }));
+
+  allCards.sort((a, b) => {
+    return a.number - b.number;
+  })
+
+  return allCards
+}
+
+//creates an object which counts occurences of each number
+function findDuplicateNum(allCards, communityCards, players, i){
+
+  let countedNumbers = [];
+
+  let numberSummary = allCards.map((element) => {
+    return Object.assign({}, element)
+  })
 
   numberSummary.map((element) => {
     element.count = 1;
@@ -51,6 +65,38 @@ function findDuplicateNum(communityCards, players){
   return countedNumbers;
 }
 
+//creates an object which counts occurences of each suit
+function findDuplicateSuit(allCards, communityCards, players, i) {
+  let countedSuits = [];
+
+  let suitSummary = allCards.map((element) => {
+    return Object.assign({}, element)
+  })
+
+  suitSummary.map((element) => {
+    element.count = 1;
+    delete element.number;
+  })
+
+  suitSummary.reduce((accum, curr) => {
+    countedSuits = [];
+    countedSuits = countedSuits.concat(accum);
+    if (countedSuits.find((x) => x.suit === curr.suit) === undefined) {
+      countedSuits.push(curr);
+    }
+    else {
+      //find index in countedSuits where curr.number = countedSuits[i].number, increment count
+      for (i2 = 0 ; i2 < countedSuits.length ; i2++) {
+        if (countedSuits[i2].suit === curr.suit) {
+          countedSuits[i2].count += 1;
+        }
+      }
+    }
+    return countedSuits;
+  })
+  return countedSuits;
+}
+
 //determine the high card
 function highCard (players, communityCards, i) {
   let returnHand1 = players[i].playerCards.reduce(function (accumulator, current){
@@ -70,7 +116,7 @@ function highCard (players, communityCards, i) {
   return 'high Card ' + returnHand2
 }
 
-function pair (duplicateNum){
+function pair (duplicateNum) {
   let pair = [];
   duplicateNum.map((element) => {
     if (element.count === 2) {
@@ -84,7 +130,6 @@ function pair (duplicateNum){
     return undefined
   }
 }
-
 
 //what to do if 3 pairs
 function twoPair (duplicateNum){
@@ -127,19 +172,31 @@ function straight (playerCards, communityCards, i){
 
 }
 
-function flush (playerCards, communityCards, i){
+function flush (duplicateSuit, allCards, i){
+  let flush = {suit: null, highestCard: null};
+  duplicateSuit.map((elementFlush) => {
+    if (elementFlush.count > 4) {
+      flush.suit = elementFlush.suit;
+      flush.highestCard = allCards.reduce((accum, curr) => {
+        if (curr.suit === flush.suit && curr.number > accum) {
+          return curr.number;
+        }
+        else {return accum}
+      }, 0)
 
+    }
+  })
+  if (flush.suit && flush.highestCard) {
+    return flush
+  }
+  else {
+    return undefined
+  }
 }
 
-/*
-Could do this 2 ways:
-- analyse each way to get a full (normal, from 2 sets, from set + to pairs)
-- find highest set and highest pair available
-  might be hard to find the pair in 2 sets
-*/
 function fullHouse (duplicateNum) {
   //find set
-  let fullHouse = [];
+  let fullHouse = {set: null , pair: null};
   let set = [];
   duplicateNum.map((elementSet) => {
     if (elementSet.count === 3) {
@@ -154,16 +211,20 @@ function fullHouse (duplicateNum) {
     }
   })
 
-  if (set.length === 1 && pair.length === 1) {
-    console.log('regular full house');
+  if (set.length > 0) {
+    fullHouse.set = Math.max(...set);
   }
 
-  else if (set.length === 2) {
-    console.log('full house from 2 sets');
+  if (set.length === 2) {
+    fullHouse.pair = Math.min(...set);
   }
 
-  else if (set.length === 1 && pair.length === 2) {
-    console.log('full house from set and 2 pairs');
+  else if (pair.length > 0) {
+    fullHouse.pair = Math.max(...pair);
+  }
+
+  if (typeof(fullHouse.set) === 'number' && typeof(fullHouse.pair) === 'number') {
+    return fullHouse
   }
 
   else {
@@ -194,20 +255,8 @@ function royalFlush (playerCards, communityCards, i){
 
 }
 
-//::::::::::from previous attempt at finding pairs:::::::::
+
+
 
 /*
-// count repetitions of each number in each player's hand, return as an object (countedNumbers)
-let countedNumbers = [];
-for (j = 0 ; j < playHandsNumbers.length ; j++){
-  countedNumbers[j] = playHandsNumbers[j].reduce((allNumbers, number) => {
-    if (number in allNumbers) {
-      allNumbers[number]++
-    }
-    else {
-      allNumbers[number] = 1
-    }
-    return allNumbers
-  }, {})
-}
 */
